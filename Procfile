@@ -5,5 +5,6 @@ run:
   web: bundle exec node /app/node/app.js
   worker:
     command:
-      - node /app/node/app.js
+      - cd /app
+      - ssvmup build
     image: web
