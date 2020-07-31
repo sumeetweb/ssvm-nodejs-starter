@@ -5,12 +5,6 @@ const app = express();
 const port = 8080;
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
-/*
-var bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({
-  extended: true
-})); 
-*/
 
 app.get('/', (req, res) => res.redirect("/index.html"));
 
