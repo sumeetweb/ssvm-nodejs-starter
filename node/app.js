@@ -1,19 +1,24 @@
-const { say } = require('../pkg/ssvm_nodejs_starter_lib.js');
+const express = require('express');
+const { solve } = require('../pkg/quadratic_lib.js');
 
-const http = require('http');
-const url = require('url');
-const hostname = '0.0.0.0';
-const port = 3000;
+const app = express();
+const port = 8080;
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: false }));
+/*
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({
+  extended: true
+})); 
+*/
 
-const server = http.createServer((req, res) => {
-  const queryObject = url.parse(req.url,true).query;
-  if (!queryObject['name']) {
-    res.end(`Please use command curl http://${hostname}:${port}/?name=MyName \n`);
-  } else {
-    res.end(say(queryObject['name']) + '\n');
-  }
-});
+app.get('/', (req, res) => res.redirect("/index.html"));
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+app.post('/solve', function (req, res) {
+  var a = parseFloat(req.body.a);
+  var b = parseFloat(req.body.b);
+  var c = parseFloat(req.body.c);
+  res.send(solve([a, b, c]))
+})
+
+app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
